@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { validatePassword } from "../utils/passwordValidation";
+import apiFetch from "../utils/apiFetch";
 
 const sanitizeName = (value) => value.replace(/[^A-Za-z\s'-]/g, "");
 
