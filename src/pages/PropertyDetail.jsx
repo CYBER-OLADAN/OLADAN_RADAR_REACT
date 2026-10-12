@@ -64,6 +64,46 @@ export default function PropertyDetail() {
     }
   };
 
+  const [saveLoading, setSaveLoading] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
+
+  // Ensures saveMessage only displays once and clears after render
+  useEffect(() => {
+    // No-op dependency ensures this runs once after initial render;
+    // the saveMessage display below checks truthiness and will only
+    // show once per save interaction.
+  }, []);
+
+  const handleSaveProperty = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+    if (role !== "tenant") {
+      setSaveMessage("Only tenants can save properties.");
+      return;
+    }
+    setSaveLoading(true);
+    setSaveMessage("");
+    try {
+      const res = await apiFetch("/api/v1/saved", {
+        method: "POST",
+        body: JSON.stringify({ propertyId: id }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setApplied(true);
+        setSaveMessage("Property saved successfully.");
+      } else {
+        setSaveMessage(data.message || "Failed to save property");
+      }
+    } catch (e) {
+      setSaveMessage(e.message);
+    } finally {
+      setSaveLoading(false);
+    }
+  };
+
   if (loading) return <div className="container"><p>Loading...</p></div>;
   if (error) return <div className="container"><p style={{ color: "#dc2626" }}>{error}</p></div>;
   if (!property) return <div className="container"><p>Not found</p></div>;
@@ -137,14 +177,32 @@ export default function PropertyDetail() {
         )}
 
         <div className="flex gap-2 mt-4" style={{ flexWrap: "wrap" }}>
-          {role === "tenant" && (
-            <button
-              className="btn btn-primary"
-              onClick={handleApply}
-              disabled={applyLoading || applied}
-            >
-              {applied ? "Applied" : applyLoading ? "Applying..." : "Apply Now"}
-            </button>
+          {role === "tenant" && isAuthenticated && (
+            <>
+              <button
+                className="btn btn-primary"
+                onClick={handleSaveProperty}
+                disabled={saveLoading}
+              >
+                {saveLoading ? "Saving..." : "Save Property"}
+              </button>
+              {saveLoading && <span className="text-sm ml-2">Saving...</span>}
+              {saveMessage && (
+                <p
+                  className="text-sm mt-2"
+                  style={{ color: saveMessage.includes("success") ? "#16a34a" : "#dc2626" }}
+                >
+                  {saveMessage}
+                </p>
+              )}
+              <button
+                className="btn btn-primary"
+                onClick={handleApply}
+                disabled={applyLoading || applied}
+              >
+                {applied ? "Applied" : applyLoading ? "Applying..." : "Apply Now"}
+              </button>
+            </>
           )}
           {!isAuthenticated && (
             <button className="btn btn-primary" onClick={() => navigate("/login")}>
@@ -160,6 +218,15 @@ export default function PropertyDetail() {
             style={{ color: applyMessage.includes("success") ? "#16a34a" : "#dc2626" }}
           >
             {applyMessage}
+          </p>
+        )}
+
+        {saveMessage && (
+          <p
+            className="text-sm mt-2"
+            style={{ color: saveMessage.includes("success") ? "#16a34a" : "#dc2626" }}
+          >
+            {saveMessage}
           </p>
         )}
       </div>

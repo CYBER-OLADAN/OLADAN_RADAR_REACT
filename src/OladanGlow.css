@@ -1,0 +1,98 @@
+/* ===== OLADAN RADAR — ANIMATED RAINBOW GLOW ===== */
+
+.oladan-glow {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  animation: rainbowPulse 4s ease-in-out infinite;
+  will-change: text-shadow, color;
+}
+
+@keyframes rainbowPulse {
+  0% {
+    color: #ffffff;
+    text-shadow:
+      0 0 4px #ff3b3b,
+      0 0 8px #ff3b3b,
+      0 0 12px #ff6b00,
+      0 0 16px #ffb300,
+      0 0 20px #ffe600,
+      0 0 24px #a3ff00,
+      0 0 28px #00ff88,
+      0 0 32px #00e0ff,
+      0 0 36px #4d7cff,
+      0 0 40px #b84dff;
+  }
+  25% {
+    color: #fff7e6;
+    text-shadow:
+      0 0 4px #ff6b00,
+      0 0 8px #ffb300,
+      0 0 12px #ffe600,
+      0 0 16px #a3ff00,
+      0 0 20px #00ff88,
+      0 0 24px #00e0ff,
+      0 0 28px #4d7cff,
+      0 0 32px #b84dff,
+      0 0 36px #ff3b3b,
+      0 0 40px #ff6b00;
+  }
+  50% {
+    color: #e6f7ff;
+    text-shadow:
+      0 0 4px #00e0ff,
+      0 0 8px #4d7cff,
+      0 0 12px #b84dff,
+      0 0 16px #ff3b3b,
+      0 0 20px #ff6b00,
+      0 0 24px #ffb300,
+      0 0 28px #ffe600,
+      0 0 32px #a3ff00,
+      0 0 36px #00ff88,
+      0 0 40px #00e0ff;
+  }
+  75% {
+    color: #f0ffe6;
+    text-shadow:
+      0 0 4px #a3ff00,
+      0 0 8px #00ff88,
+      0 0 12px #00e0ff,
+      0 0 16px #4d7cff,
+      0 0 20px #b84dff,
+      0 0 24px #ff3b3b,
+      0 0 28px #ff6b00,
+      0 0 32px #ffb300,
+      0 0 36px #ffe600,
+      0 0 40px #a3ff00;
+  }
+  100% {
+    color: #ffffff;
+    text-shadow:
+      0 0 4px #ff3b3b,
+      0 0 8px #ff3b3b,
+      0 0 12px #ff6b00,
+      0 0 16px #ffb300,
+      0 0 20px #ffe600,
+      0 0 24px #a3ff00,
+      0 0 28px #00ff88,
+      0 0 32px #00e0ff,
+      0 0 36px #4d7cff,
+      0 0 40px #b84dff;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .oladan-glow {
+    animation: none;
+    text-shadow:
+      0 0 6px #ff3b3b,
+      0 0 12px #ffb300,
+      0 0 18px #a3ff00,
+      0 0 24px #00e0ff,
+      0 0 30px #b84dff;
+  }
+}

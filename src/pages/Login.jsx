@@ -14,11 +14,11 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); setLoading(true);
+    setError("");
+    setLoading(true);
     try {
       const res = await apiFetch("/api/v1/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
@@ -34,54 +34,56 @@ export default function Login() {
 
   return (
     <div className="container">
-      <div className="card" style={{ maxWidth: 400, margin: "2rem auto" }}>
-        <h1>Login</h1>
-        {error && <p style={{ color: "#dc2626" }}>{error}</p>}
+      <div className="card auth-card">
+        <h1 className="auth-title">Login</h1>
+
+        {error && <p className="auth-error">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
           </div>
+
           <div className="form-group">
             <label>Password</label>
-            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <div className="password-field">
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                style={{ paddingRight: "4.5rem", width: "100%" }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((s) => !s)}
-                className="btn btn-link text-sm"
-                style={{
-                  position: "absolute",
-                  right: "0.5rem",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  padding: "0.25rem 0.6rem",
-                  margin: 0,
-                  lineHeight: 1,
-                  height: "auto",
-                  minWidth: "auto",
-                  background: "transparent",
-                }}
+                className="password-toggle"
+                aria-label="Toggle password visibility"
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
+
+          <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
-          <p className="mt-2 text-sm">
+
+          <p className="auth-footer-link">
             <Link to="/forgot-password">Forgot password?</Link>
           </p>
         </form>
-        <p className="mt-4 text-sm">Don't have an account? <Link to="/register">Register</Link></p>
+
+        <p className="auth-footer-link">
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
       </div>
     </div>
   );

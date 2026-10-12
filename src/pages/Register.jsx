@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { validatePassword } from "../utils/passwordValidation";
@@ -7,7 +7,14 @@ import apiFetch from "../utils/apiFetch";
 const sanitizeName = (value) => value.replace(/[^A-Za-z\s'-]/g, "");
 
 export default function Register() {
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", role: "tenant" });
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "tenant",
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +22,14 @@ export default function Register() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const update = (k) => (e) => setForm({ ...form, [k]: k === "firstName" || k === "lastName" ? sanitizeName(e.target.value) : e.target.value });
+  const update = (k) => (e) =>
+    setForm({
+      ...form,
+      [k]:
+        k === "firstName" || k === "lastName"
+          ? sanitizeName(e.target.value)
+          : e.target.value,
+    });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +57,6 @@ export default function Register() {
       const { confirmPassword, ...payload } = form;
       const res = await apiFetch("/api/v1/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
@@ -63,96 +76,95 @@ export default function Register() {
 
   return (
     <div className="container">
-      <div className="card" style={{ maxWidth: 460, margin: "2rem auto" }}>
-        <h1>Create an Account</h1>
-        {error && <p style={{ color: "#dc2626" }}>{error}</p>}
+      <div className="card auth-card">
+        <h1 className="auth-title">Create an Account</h1>
+
+        {error && <p className="auth-error">{error}</p>}
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>First Name</label>
-            <input type="text" value={form.firstName} onChange={update("firstName")} required />
+            <input
+              type="text"
+              value={form.firstName}
+              onChange={update("firstName")}
+              required
+            />
           </div>
+
           <div className="form-group">
             <label>Last Name</label>
-            <input type="text" value={form.lastName} onChange={update("lastName")} required />
+            <input
+              type="text"
+              value={form.lastName}
+              onChange={update("lastName")}
+              required
+            />
           </div>
+
           <div className="form-group">
             <label>Email</label>
-            <input type="email" value={form.email} onChange={update("email")} required autoComplete="email" />
+            <input
+              type="email"
+              value={form.email}
+              onChange={update("email")}
+              required
+              autoComplete="email"
+            />
           </div>
+
           <div className="form-group">
             <label>Password</label>
-            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <div className="password-field">
               <input
                 type={showPassword ? "text" : "password"}
                 value={form.password}
                 onChange={update("password")}
                 required
                 autoComplete="new-password"
-                style={{ paddingRight: "4.5rem", width: "100%" }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((s) => !s)}
-                className="btn btn-link text-sm"
-                style={{
-                  position: "absolute",
-                  right: "0.5rem",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  padding: "0.25rem 0.6rem",
-                  margin: 0,
-                  lineHeight: 1,
-                  height: "auto",
-                  minWidth: "auto",
-                  background: "transparent",
-                }}
+                className="password-toggle"
+                aria-label="Toggle password visibility"
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
             {form.password && validatePassword(form.password).length > 0 && (
-              <ul className="text-sm" style={{ color: "#dc2626", marginTop: "0.35rem", paddingLeft: "1.25rem" }}>
+              <ul className="password-hints">
                 {validatePassword(form.password).map((err) => (
                   <li key={err}>{err}</li>
                 ))}
               </ul>
             )}
           </div>
+
           <div className="form-group">
             <label>Confirm Password</label>
-            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <div className="password-field">
               <input
                 type={showConfirm ? "text" : "password"}
                 value={form.confirmPassword}
                 onChange={update("confirmPassword")}
                 required
                 autoComplete="new-password"
-                style={{ paddingRight: "4.5rem", width: "100%" }}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirm((s) => !s)}
-                className="btn btn-link text-sm"
-                style={{
-                  position: "absolute",
-                  right: "0.5rem",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  padding: "0.25rem 0.6rem",
-                  margin: 0,
-                  lineHeight: 1,
-                  height: "auto",
-                  minWidth: "auto",
-                  background: "transparent",
-                }}
+                className="password-toggle"
+                aria-label="Toggle password visibility"
               >
                 {showConfirm ? "Hide" : "Show"}
               </button>
             </div>
             {form.confirmPassword && form.password !== form.confirmPassword && (
-              <p className="text-sm" style={{ color: "#dc2626", marginTop: "0.35rem" }}>Passwords do not match</p>
+              <p className="password-mismatch">Passwords do not match</p>
             )}
           </div>
+
           <div className="form-group">
             <label>I am a</label>
             <select value={form.role} onChange={update("role")}>
@@ -160,11 +172,15 @@ export default function Register() {
               <option value="landlord">Landlord (listing properties)</option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
+
+          <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
             {loading ? "Creating account..." : "Register"}
           </button>
         </form>
-        <p className="mt-4 text-sm">Already have an account? <Link to="/login">Login</Link></p>
+
+        <p className="auth-footer-link">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   );

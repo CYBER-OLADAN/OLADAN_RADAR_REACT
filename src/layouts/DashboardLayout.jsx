@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "../OladanGlow.css";
 
 export default function DashboardLayout({ title, links }) {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
@@ -15,18 +16,13 @@ export default function DashboardLayout({ title, links }) {
     localStorage.setItem("theme", next);
   };
 
-  const handleLogout = () => {
-    logout();
-    window.location.href = "/login";
-  };
-
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
       <aside
         className={`dashboard-sidebar ${sidebarOpen ? "open" : ""}`}
         style={{ display: "flex", flexDirection: "column" }}
       >
-        <h2 style={{ color: "#fff", fontSize: "1.1rem", marginBottom: "1.5rem" }}>
+        <h2 className="oladan-glow">
           Oladan Radar
         </h2>
 
@@ -61,17 +57,14 @@ export default function DashboardLayout({ title, links }) {
             type="button"
             onClick={toggleTheme}
             className="btn btn-link text-sm"
-            style={{ width: "100%", justifyContent: "flex-start", color: "#d1d5db", borderColor: "#334155", marginBottom: "0.5rem" }}
+            style={{
+              width: "100%",
+              justifyContent: "flex-start",
+              color: "#d1d5db",
+              borderColor: "#334155",
+            }}
           >
             {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
-          </button>
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="btn btn-link text-sm"
-            style={{ width: "100%", justifyContent: "flex-start", color: "#f87171", borderColor: "#334155" }}
-          >
-            Logout
           </button>
         </div>
       </aside>
