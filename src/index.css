@@ -458,7 +458,10 @@ img {
   h1 { font-size: 1.35rem; }
   h2 { font-size: 1.15rem; }
 
-  .btn {
+  .form-group .btn,
+  .btn-block,
+  form > .btn,
+  .container > .btn {
     width: 100%;
     justify-content: center;
   }
@@ -541,7 +544,10 @@ img {
     font-size: 1rem;
   }
 
-  .btn {
+  .form-group .btn,
+  .btn-block,
+  form > .btn,
+  .container > .btn {
     width: 100%;
     justify-content: center;
   }
@@ -598,3 +604,118 @@ img {
   [data-theme="dark"] .stat-label {
     color: var(--text-muted);
   }
+/* ===== DASHBOARD LAYOUT ===== */
+.dashboard-sidebar {
+  width: 240px;
+  background: #111827;
+  color: #fff;
+  padding: 1.5rem 1rem;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+.dashboard-main {
+  flex: 1;
+  background: var(--bg, #f7f8fa);
+  color: var(--text, #1a1a1a);
+  min-width: 0;
+}
+
+.dashboard-header {
+  background: var(--nav-bg, #ffffff);
+  color: var(--text, #1a1a1a);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dashboard-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text, #1a1a1a);
+  padding: 0.25rem 0.5rem;
+}
+
+.dashboard-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 767px) {
+  .dashboard-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+  .dashboard-sidebar.open {
+    transform: translateX(0);
+  }
+  .dashboard-overlay.open {
+    display: block;
+  }
+  .hamburger-btn {
+    display: inline-block;
+  }
+  .dashboard-header {
+    padding: 0.75rem 1rem;
+  }
+  .dashboard-title {
+    font-size: 0.95rem;
+  }
+  .container {
+    padding: 1rem;
+  }
+}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"] .dashboard-main {
+  background: #000000;
+  color: #f1f5f9;
+}
+[data-theme="dark"] .dashboard-header {
+  background: #0a0a0a;
+  color: #f1f5f9;
+  border-color: #262626;
+}
+[data-theme="dark"] .dashboard-title {
+  color: #f8fafc;
+}
+[data-theme="dark"] .hamburger-btn {
+  color: #f1f5f9;
+}
+
+/* ===== SCOPED FULL-WIDTH BUTTONS (only in forms) ===== */
+@media (max-width: 480px) {
+  .container { padding: 0.75rem; }
+  h1 { font-size: 1.35rem; }
+  h2 { font-size: 1.15rem; }
+  .form-group .btn,
+  form > .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

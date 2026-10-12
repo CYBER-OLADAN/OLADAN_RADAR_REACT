@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { validatePassword } from "../utils/passwordValidation";
+import apiFetch from "../utils/apiFetch";
 
 export default function ResetPassword() {
   const [token, setToken] = useState("");
@@ -26,7 +27,7 @@ export default function ResetPassword() {
     e.preventDefault();
     setError(""); setSuccess(""); setLoading(true);
     try {
-      const res = await fetch("/api/v1/reset-password", {
+      const res = await apiFetch("/api/v1/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword }),

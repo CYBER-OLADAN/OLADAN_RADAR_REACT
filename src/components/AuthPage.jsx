@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import apiFetch from "../utils/apiFetch";
 import "../App.css";
 
 const AuthPage = () => {
@@ -28,7 +29,7 @@ const AuthPage = () => {
     try {
       if (formType === "signup") {
         // For signup, we still show role selector
-        const res = await fetch("/api/v1/register", {
+        const res = await apiFetch("/api/v1/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ firstName, lastName, email, password, role }),
@@ -44,7 +45,7 @@ const AuthPage = () => {
       } else {
         // For login, auto-detect role from email
         const detectedRole = detectRoleFromEmail(email);
-        const res = await fetch("/api/v1/login", {
+        const res = await apiFetch("/api/v1/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import apiFetch from "../utils/apiFetch";
 
 export default function Properties() {
   const [properties, setProperties] = useState([]);
@@ -9,7 +10,7 @@ export default function Properties() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/v1/properties")
+    apiFetch("/api/v1/properties")
       .then((r) => r.json())
       .then((data) => {
         if (cancelled) return;

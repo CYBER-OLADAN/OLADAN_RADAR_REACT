@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import apiFetch from "../utils/apiFetch";
 
 export default function VerifyEmail() {
   const [token, setToken] = useState("");
@@ -20,7 +21,7 @@ export default function VerifyEmail() {
 
   useEffect(() => {
     if (!token) return;
-    fetch(`/api/v1/verify-email?token=${token}`)
+    apiFetch(`/api/v1/verify-email?token=${token}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Email verified") {

@@ -1,29 +1,41 @@
+import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
 
 export default function DashboardLayout({ title, links }) {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+
   const toggleTheme = () => {
     const next = theme === "light" ? "dark" : "light";
     setTheme(next);
     document.documentElement.dataset.theme = next;
     localStorage.setItem("theme", next);
   };
-  const handleLogout = () => { logout(); window.location.href = "/login"; };
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/login";
+  };
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
-      <aside className={`dashboard-sidebar ${sidebarOpen ? "open" : ""}`}>
-        <h2 style={{ color: "var(--text)", fontSize: "1.1rem", marginBottom: "1.5rem" }}>Oladan Radar</h2>
-        <nav style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+      <aside
+        className={`dashboard-sidebar ${sidebarOpen ? "open" : ""}`}
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <h2 style={{ color: "#fff", fontSize: "1.1rem", marginBottom: "1.5rem" }}>
+          Oladan Radar
+        </h2>
+
+        <nav style={{ display: "flex", flexDirection: "column", gap: "0.35rem", flex: 1 }}>
           {links.map((l) => (
             <Link
               key={l.to}
               to={l.to}
+              onClick={() => setSidebarOpen(false)}
               style={{
                 color: location.pathname === l.to ? "#fff" : "#d1d5db",
                 background: location.pathname === l.to ? "#1f2937" : "transparent",
@@ -32,21 +44,21 @@ export default function DashboardLayout({ title, links }) {
                 textDecoration: "none",
                 fontSize: "0.9rem",
               }}
-              onClick={() => setSidebarOpen(false)}
             >
               {l.label}
             </Link>
           ))}
         </nav>
 
-        <div style={{ marginTop: "auto", paddingTop: "1rem", borderTop: "1px solid #334155" }}>
+        <div style={{ paddingTop: "1rem", borderTop: "1px solid #334155" }}>
           <div style={{ color: "#d1d5db", padding: "0.5rem 0.75rem", fontSize: "0.85rem" }}>
             {user?.firstName} {user?.lastName}
           </div>
-          <div style={{ color: "var(--text-muted)", padding: "0 0.75rem 0.5rem", fontSize: "0.75rem" }}>
+          <div style={{ color: "#94a3b8", padding: "0 0.75rem 0.5rem", fontSize: "0.75rem" }}>
             {user?.email}
           </div>
           <button
+            type="button"
             onClick={toggleTheme}
             className="btn btn-link text-sm"
             style={{ width: "100%", justifyContent: "flex-start", color: "#d1d5db", borderColor: "#334155", marginBottom: "0.5rem" }}
@@ -54,25 +66,36 @@ export default function DashboardLayout({ title, links }) {
             {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
           </button>
           <button
+            type="button"
             onClick={handleLogout}
             className="btn btn-link text-sm"
             style={{ width: "100%", justifyContent: "flex-start", color: "#f87171", borderColor: "#334155" }}
           >
             Logout
           </button>
-        </nav>
+        </div>
       </aside>
+
       <div
-        className="dashboard-overlay ${sidebarOpen ? "open" : ""}"
+        className={`dashboard-overlay ${sidebarOpen ? "open" : ""}`}
         onClick={() => setSidebarOpen(false)}
-        style={{ display: sidebarOpen ? "block" : "none", position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 40 }}
       />
-      <main style={{ flex: 1, background: "var(--bg)", color: "var(--text)", minWidth: 0 }}>
-        <header style={{ background: "var(--nav-bg)", color: "var(--text)", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <button className="hamburger-btn" onClick={() => setSidebarOpen((s) => !s)} aria-label="Toggle menu">☰</button>
+
+      <main className="dashboard-main">
+        <header className="dashboard-header">
+          <button
+            type="button"
+            className="hamburger-btn"
+            onClick={() => setSidebarOpen((s) => !s)}
+            aria-label="Toggle menu"
+          >
+            ☰
+          </button>
           <strong className="dashboard-title">{title}</strong>
         </header>
-        <div className="container"><Outlet /></div>
+        <div className="container">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
