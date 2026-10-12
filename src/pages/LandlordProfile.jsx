@@ -128,7 +128,7 @@ export default function LandlordProfile() {
         <form onSubmit={handlePasswordSubmit} disabled={pwdLoading}>
           <div className="form-group">
             <label>Current Password</label>
-            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <div className="password-field">
               <input
                 type={showCurrent ? "text" : "password"}
                 value={form.currentPassword || ""}
@@ -138,13 +138,8 @@ export default function LandlordProfile() {
               <button
                 type="button"
                 onClick={() => setShowCurrent((s) => !s)}
-                className="btn btn-link text-sm"
-                style={{
-                  position: "absolute", right: "0.5rem", top: "50%",
-                  transform: "translateY(-50%)", padding: "0.25rem 0.6rem",
-                  margin: 0, lineHeight: 1, height: "auto", minWidth: "auto",
-                  background: "transparent",
-                }}
+                className="password-toggle"
+                aria-label="Toggle password visibility"
               >
                 {showCurrent ? "Hide" : "Show"}
               </button>
@@ -153,7 +148,7 @@ export default function LandlordProfile() {
 
           <div className="form-group">
             <label>New Password</label>
-            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <div className="password-field">
               <input
                 type={showNew ? "text" : "password"}
                 value={form.newPassword || ""}
@@ -164,13 +159,8 @@ export default function LandlordProfile() {
               <button
                 type="button"
                 onClick={() => setShowNew((s) => !s)}
-                className="btn btn-link text-sm"
-                style={{
-                  position: "absolute", right: "0.5rem", top: "50%",
-                  transform: "translateY(-50%)", padding: "0.25rem 0.6rem",
-                  margin: 0, lineHeight: 1, height: "auto", minWidth: "auto",
-                  background: "transparent",
-                }}
+                className="password-toggle"
+                aria-label="Toggle password visibility"
               >
                 {showNew ? "Hide" : "Show"}
               </button>
@@ -179,7 +169,7 @@ export default function LandlordProfile() {
 
           <div className="form-group">
             <label>Confirm New Password</label>
-            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+            <div className="password-field">
               <input
                 type={showConfirm ? "text" : "password"}
                 value={form.confirmPassword || ""}
@@ -189,13 +179,8 @@ export default function LandlordProfile() {
               <button
                 type="button"
                 onClick={() => setShowConfirm((s) => !s)}
-                className="btn btn-link text-sm"
-                style={{
-                  position: "absolute", right: "0.5rem", top: "50%",
-                  transform: "translateY(-50%)", padding: "0.25rem 0.6rem",
-                  margin: 0, lineHeight: 1, height: "auto", minWidth: "auto",
-                  background: "transparent",
-                }}
+                className="password-toggle"
+                aria-label="Toggle password visibility"
               >
                 {showConfirm ? "Hide" : "Show"}
               </button>
