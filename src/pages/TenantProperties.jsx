@@ -88,7 +88,7 @@ export default function TenantProperties() {
             const twoImages = (p.images && p.images.length >= 2 ? p.images.slice(0, 2) : [p.images?.[0] || p.imageUrl]).filter(Boolean);
             return (
               <div key={p._id} className="card" style={{ display: "flex", flexDirection: "column", padding: 0, overflow: "hidden" }}>
-                <div style={{ display: "grid", gridTemplateColumns: twoImages.length > 1 ? "1fr 1fr" : "1fr", gap: 2 }}>
+                <div style={{ display: "grid", gridTemplateColumns: twoImages.length > 1 ? "repeat(auto-fill, minmax(200px, 1fr))" : "1fr", gap: 2 }}>
                   {twoImages.map((url, i) => (
                     <img key={i} src={url} alt={p.title} style={{ width: "100%", height: 160, objectFit: "cover" }} />
                   ))}

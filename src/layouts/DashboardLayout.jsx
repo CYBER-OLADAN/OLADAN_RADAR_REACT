@@ -60,9 +60,13 @@ export default function DashboardLayout({ title, links }) {
           >
             Logout
           </button>
-        </div>
+        </nav>
       </aside>
-      <div className={`dashboard-overlay ${sidebarOpen ? "open" : ""}`} onClick={() => setSidebarOpen(false)} />
+      <div
+        className="dashboard-overlay ${sidebarOpen ? "open" : ""}"
+        onClick={() => setSidebarOpen(false)}
+        style={{ display: sidebarOpen ? "block" : "none", position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 40 }}
+      />
       <main style={{ flex: 1, background: "var(--bg)", color: "var(--text)", minWidth: 0 }}>
         <header style={{ background: "var(--nav-bg)", color: "var(--text)", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <button className="hamburger-btn" onClick={() => setSidebarOpen((s) => !s)} aria-label="Toggle menu">☰</button>

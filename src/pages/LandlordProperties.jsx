@@ -58,7 +58,7 @@ export default function LandlordProperties() {
             const imgs = (p.images && p.images.length >= 2 ? p.images.slice(0, 2) : [p.images?.[0] || p.imageUrl]).filter(Boolean);
             return (
               <div key={p._id} className="card" style={{ padding: 0, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "grid", gridTemplateColumns: imgs.length > 1 ? "1fr 1fr" : "1fr", gap: 2 }}>
+                <div style={{ display: "grid", gridTemplateColumns: imgs.length > 1 ? "repeat(auto-fill, minmax(200px, 1fr))" : "1fr", gap: 2 }}>
                   {imgs.map((url, i) => (
                     <img key={i} src={url} alt={p.title} style={{ width: "100%", height: 160, objectFit: "cover" }} />
                   ))}
