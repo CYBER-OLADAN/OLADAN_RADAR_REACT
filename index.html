@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>react_project</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // #region agent log
+      (function () {
+        function send(message, data, hypothesisId) {
+          fetch('http://127.0.0.1:7268/ingest/9f08fb21-85d1-4c0c-a422-2023756f2730',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'a440ae'},body:JSON.stringify({sessionId:'a440ae',location:'index.html',message:message,data:data||{},timestamp:Date.now(),hypothesisId:hypothesisId,runId:'pre-fix'})}).catch(function(){});
+        }
+        send('page_boot',{href:location.href,readyState:document.readyState},'C');
+        window.addEventListener('error', function (e) {
+          send('window_error',{message:String(e.message||''),filename:e.filename||'',lineno:e.lineno,colno:e.colno},'A');
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+          var reason = e.reason;
+          send('unhandledrejection',{reason:String(reason && reason.message ? reason.message : reason),stack:reason && reason.stack ? String(reason.stack).slice(0,500) : ''},'B');
+        });
+      })();
+      // #endregion
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
