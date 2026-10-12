@@ -40,7 +40,7 @@ export default function Register() {
     setError("");
     try {
       const { confirmPassword, ...payload } = form;
-      const res = await fetch("/api/v1/register", {
+      const res = await apiFetch("/api/v1/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -68,11 +68,11 @@ export default function Register() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>First Name</label>
-            <input type="text" value={form.firstName} onChange={update("firstName")} required pattern="[A-Za-z][A-Za-z\s'-]{1,49}" title="Letters only, 2–50 characters" />
+            <input type="text" value={form.firstName} onChange={update("firstName")} required />
           </div>
           <div className="form-group">
             <label>Last Name</label>
-            <input type="text" value={form.lastName} onChange={update("lastName")} required pattern="[A-Za-z][A-Za-z\s'-]{1,49}" title="Letters only, 2–50 characters" />
+            <input type="text" value={form.lastName} onChange={update("lastName")} required />
           </div>
           <div className="form-group">
             <label>Email</label>
