@@ -7,14 +7,6 @@ export default function DashboardLayout({ title, links }) {
   const { user } = useAuth();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
-
-  const toggleTheme = () => {
-    const next = theme === "light" ? "dark" : "light";
-    setTheme(next);
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem("theme", next);
-  };
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
@@ -53,19 +45,6 @@ export default function DashboardLayout({ title, links }) {
           <div style={{ color: "#94a3b8", padding: "0 0.75rem 0.5rem", fontSize: "0.75rem" }}>
             {user?.email}
           </div>
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="btn btn-link text-sm"
-            style={{
-              width: "100%",
-              justifyContent: "flex-start",
-              color: "#d1d5db",
-              borderColor: "#334155",
-            }}
-          >
-            {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
-          </button>
         </div>
       </aside>
 

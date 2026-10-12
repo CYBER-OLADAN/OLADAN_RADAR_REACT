@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import apiFetch from "../utils/apiFetch";
 
 export default function TenantProfile() {
   const { user, logout } = useAuth();
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
 
   // Password change state
   const [currentPassword, setCurrentPassword] = useState("");
@@ -15,6 +16,13 @@ export default function TenantProfile() {
   const [pwdError, setPwdError] = useState("");
   const [pwdSuccess, setPwdSuccess] = useState("");
   const [pwdLoading, setPwdLoading] = useState(false);
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem("theme", next);
+  };
 
   const handleLogout = () => {
     logout();
@@ -93,6 +101,22 @@ export default function TenantProfile() {
           To change your name, email, or role, please contact the RADAR via <a href="mailto:oladan012@gmail.com">oladan012@gmail.com</a>.
         </p>
       </div>
+
+        {/* Appearance card */}
+        <div className="card" style={{ marginTop: "1.5rem" }}>
+          <h2>Appearance</h2>
+          <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+            Choose how the app looks. Your preference is saved on this device.
+          </p>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={toggleTheme}
+            style={{ marginTop: "0.75rem" }}
+          >
+            {theme === "light" ? "🌙 Switch to Dark Mode" : "☀️ Switch to Light Mode"}
+          </button>
+        </div>
 
       {/* Password change */}
       <div className="card" style={{ marginTop: "1.5rem" }}>
@@ -191,7 +215,10 @@ export default function TenantProfile() {
         <button
           type="button"
           className="btn btn-danger"
-          onClick={handleLogout}
+          onClick={() => {
+            logout();
+            window.location.href = "/login";
+          }}
           style={{ marginTop: "0.75rem" }}
         >
           Logout

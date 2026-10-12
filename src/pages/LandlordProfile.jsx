@@ -6,6 +6,7 @@ import apiFetch from "../utils/apiFetch";
 
 export default function LandlordProfile() {
   const { user, logout } = useAuth();
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
   const [form, setForm] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
@@ -23,6 +24,13 @@ export default function LandlordProfile() {
   const [pwdError, setPwdError] = useState("");
   const [pwdSuccess, setPwdSuccess] = useState("");
   const [pwdLoading, setPwdLoading] = useState(false);
+
+  const toggleTheme = () => {
+    const next = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem("theme", next);
+  };
   const navigate = useNavigate();
 
   const handlePasswordSubmit = async (e) => {
@@ -120,6 +128,22 @@ export default function LandlordProfile() {
           To change your name, email, or role, please contact the RADAR <a href="mailto:oladan012@gmail.com">oladan012@gmail.com</a>.
         </p>
       </div>
+
+        {/* Appearance card */}
+        <div className="card" style={{ marginTop: "1.5rem" }}>
+          <h2>Appearance</h2>
+          <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+            Choose how the app looks. Your preference is saved on this device.
+          </p>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={toggleTheme}
+            style={{ marginTop: "0.75rem" }}
+          >
+            {theme === "light" ? "🌙 Switch to Dark Mode" : "☀️ Switch to Light Mode"}
+          </button>
+        </div>
 
       {/* SECTION B — Password change form (still editable) */}
       <div className="card" style={{ marginBottom: "1.5rem" }}>
